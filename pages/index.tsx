@@ -14,6 +14,11 @@ export default function Index() {
             Go to the about page
           </Button>
         </Link>
+        <Link href="/my-landing">
+          <Button variant="contained" color="secondary">
+            Go to the landing page
+          </Button>
+        </Link>
       </Box>
     </Container>
   );
