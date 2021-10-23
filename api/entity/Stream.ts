@@ -26,4 +26,4 @@ export class Stream {
   author: Ref<User>;
 }
 
-export const streamModel = getModelForClass(Stream);
+export const StreamModel = getModelForClass(Stream);
