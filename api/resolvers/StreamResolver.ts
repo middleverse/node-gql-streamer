@@ -47,4 +47,37 @@ export class StreamResolver {
 
     return stream;
   }
+
+  @Mutation(() => Stream)
+  @UseMiddleware(isAuth)
+  async editStream(
+    @Arg("input") streamInput: StreamInput,
+    @Ctx() ctx: MyContext
+  ): Promise<Stream> {
+    const { id, title, description, url } = streamInput;
+
+    const stream = await StreamModel.findOneAndUpdate(
+      {
+        // find by
+        _id: id,
+        author: ctx.res.locals.userId,
+      },
+      {
+        // updates
+        title,
+        description,
+        url,
+      },
+      {
+        runValidators: true,
+        new: true, // passes back updated stream obj
+      }
+    );
+
+    if (!stream) {
+      throw new Error("Stream not found");
+    }
+
+    return stream;
+  }
 }
