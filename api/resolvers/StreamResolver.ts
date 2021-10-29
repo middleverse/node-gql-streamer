@@ -80,4 +80,22 @@ export class StreamResolver {
 
     return stream;
   }
+
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
+  async deleteStream(
+    @Arg("streamId", () => ObjectIdScalar) streamId: ObjectId,
+    @Ctx() ctx: MyContext
+  ): Promise<Boolean | undefined> {
+    const deleted = await StreamModel.findByIdAndDelete({
+      _id: streamId,
+      author: ctx.res.locals.userId,
+    });
+
+    if (!deleted) {
+      throw new Error("Stream not found");
+    }
+
+    return true;
+  }
 }
