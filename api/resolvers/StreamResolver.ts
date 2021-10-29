@@ -30,4 +30,21 @@ export class StreamResolver {
     // 2. display all stream for the current user
     return StreamModel.find({ author: ctx.res.locals.userId });
   }
+
+  @Mutation(() => Stream)
+  @UseMiddleware(isAuth)
+  async addStream(
+    @Arg("input") streamInput: StreamInput,
+    @Ctx() ctx: MyContext
+  ): Promise<Stream> {
+    // 3. create a new stream for current user
+    const stream = new StreamModel({
+      ...streamInput,
+      author: ctx.res.locals.userId,
+    } as Stream); // as Stream is what makes TS start type checking our input variables
+
+    await stream.save();
+
+    return stream;
+  }
 }
