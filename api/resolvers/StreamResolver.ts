@@ -98,4 +98,9 @@ export class StreamResolver {
 
     return true;
   }
+
+  @FieldResolver()
+  async author(@Root() stream: Stream): Promise<User | null> {
+    return await UserModel.findById(stream.author);
+  }
 }
