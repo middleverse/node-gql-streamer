@@ -23,4 +23,11 @@ export class StreamResolver {
     // 1. find a single stream
     return StreamModel.findById(streamId);
   }
+
+  @Query(() => [Stream])
+  @UseMiddleware(isAuth)
+  streams(@Ctx() ctx: MyContext) {
+    // 2. display all stream for the current user
+    return StreamModel.find({ author: ctx.res.locals.userId });
+  }
 }
